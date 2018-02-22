@@ -1,0 +1,101 @@
+body{
+    background-color: black;
+    background-image: url("../imagenes/nada.jpg");// cambiamos el fondo por uno plano
+    background-repeat:repeat;
+}
+
+.anim_pantalla_completa{
+    width:100%;
+    height:100%;
+
+
+}
+
+.div_contenedor{
+    position: relative;
+    width:480px;
+    height:800px;
+    border:solid 3px aqua;
+    background-color: black;
+}
+
+.div_inicio{
+    width:480px;
+    height:800px;
+    background-image: url("../imagenes/fondo_inicio.jpg");
+    background-repeat: no-repeat;
+}
+
+.body_juego .div_btn_volver{
+    position: absolute;
+    top: 40px;
+    left: 400px;
+    z-index: 1000;
+}
+
+.body_juego .div_datos{
+    position: absolute;
+    top: 38px;
+    left: 80px;
+    color: hsl(100, 100%, 100%);
+    font: 40px Caveat Brush, Caveat Brush;
+    background-image: url("../imagenes/boton_puntaje.png");
+
+    z-index: 1000;
+}
+
+.body_juego .div_conteo{
+    position: relative;
+    width:480px;
+    height:800px;
+    background-image: url("../imagenes/fondo_juego_conteo.jpg");
+    background-repeat: no-repeat;
+}
+
+.body_juego .div_conteo .div_animacion{
+    position: absolute;
+    left:50px;
+    top:250px;
+}
+
+.body_juego .div_seleccion{
+    position: relative;
+    width:480px;
+    height:800px;
+    background-image: url("../imagenes/fondo_juego_vs.jpg");
+    background-repeat: no-repeat;
+}
+
+.body_juego .div_seleccion .div_seleccion_computador{
+    position: absolute;
+    top:170px;
+    width:100%;
+}
+
+.body_juego .div_seleccion .div_seleccion_jugador{
+    position: absolute;
+    top:400px;
+    width:100%;
+}
+
+.body_juego .div_seleccion .div_opciones{
+    position: absolute;
+    top:600px;
+    width:100%;
+}
+
+.body_juego .div_seleccion .img_jugador{
+    max-width: 179px;
+}
+
+.body_instrucciones .div_btn_volver{
+    position: absolute;
+    top: 650px;
+    left: 100px;
+}
+
+.body_creditos .div_btn_volver{
+    position: absolute;
+    top: 500px;
+    left: 200px;
+}

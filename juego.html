@@ -1,0 +1,186 @@
+<html>
+
+<head>
+    <title>CaChiPum</title>
+    <link rel="stylesheet" type="text/css" href="css/estilo.css">
+</head>
+
+<body class="body_juego">
+    <center>
+        <div class="div_contenedor">
+            <div class="div_btn_volver">
+                <a href="#" onclick="location.href='inicio.html'; return false;">
+                    <img border="0" alt="Volver" src="imagenes/btn_menu.png">
+                </a>
+            </div>
+            <div id="div_datos" class="div_datos">
+                <div>
+                    <label>Puntaje: </label>
+                    <label id="label_puntaje"></label>
+                    <label>Vidas : </label>
+                    <label id="label_vidas"></label>
+                </div>
+            </div>
+            <div id="div_conteo" class="div_conteo" style="display:none;">
+                <div class="div_animacion">
+                    <div>
+                        <img id="anim_conteo" border="0" src="animaciones/cachipum.gif">
+                    </div>
+                </div>
+            </div>
+            <div id="div_seleccion" class="div_seleccion" style="display:none;">
+                <div id="div_seleccion_computador" class="div_seleccion_computador">
+                    <img id="img_computador" class="img_computador" border="0" alt="Piedra" src="imagenes/nada.png">
+                </div>
+                <div id="div_seleccion_jugador" class="div_seleccion_jugador">
+                    <img id="img_jugador" class="img_jugador" border="0" alt="Piedra" src="imagenes/nada.png">
+                </div>
+                <div id="div_opciones" class="div_opciones">
+                    <div>
+                        <a id="btn_piedra"  class="btn_opcion" href="#">
+                            <img border="0" alt="Piedra" src="imagenes/piedra_2.png"/>
+                        </a>
+                        <a id="btn_papel"  class="btn_opcion"  href="#">
+                            <img border="0" alt="Papel" src="imagenes/papel_2.png"/>
+                        </a>
+                        <a id="btn_tijera"  class="btn_opcion"  href="#">
+                            <img border="0" alt="Tijera" src="imagenes/tijera_2.png"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+
+</html>
+<!-- Jquery -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="javascript/juego.js" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        var juego;
+        var bloqueado=true;
+
+        inicializar();
+
+        function inicializar() {
+            try {
+                juego = new Juego();
+                juego.iniciar();
+                refrescarInformacion();
+                mostrarConteo();
+            } catch (error) {
+                alert(error);
+            }
+        };
+
+        function mostrarConteo() {
+            $("#anim_conteo").attr("src", "animaciones/cachipum.gif");
+            $("#div_conteo").show();
+            $("#div_seleccion").hide();
+            setTimeout(function(){mostrarControles();}, 3000);
+        }
+
+        function mostrarControles() {
+            $("#div_conteo").hide();
+            $("#div_seleccion").show();
+            $("#anim_conteo").attr("src", "");
+            $("#img_jugador").attr("src", "imagenes/nada.png");
+            $("#img_computador").attr("src", "imagenes/nada.png");
+            bloqueado=false;
+        }
+
+
+        function refrescarInformacion() {
+            $("#label_jugador").html(juego.jugador);
+            $("#label_puntaje").html(juego.puntaje);
+            $("#label_vidas").html(juego.vidas);
+        };
+
+        function refrescarSeleccionComputador(seleccionComputador) {
+            if (seleccionComputador == Opciones.PIEDRA) {
+                $("#img_computador").attr("src", "imagenes/piedra_1.png");
+            }
+            else if (seleccionComputador == Opciones.PAPEL) {
+                $("#img_computador").attr("src", "imagenes/papel_1.png");
+            }
+            else if (seleccionComputador == Opciones.TIJERA) {
+                $("#img_computador").attr("src", "imagenes/tijera_1.png");
+            }
+        };
+
+        function refrescarResultado(resultado) {
+            switch (resultado) {
+                case Recompensas.TIROGANADO:
+                    $("#img_jugador").attr("src", "animaciones/ganaste.gif");
+                    setTimeout(function(){mostrarConteo();}, 2000);
+                    break;
+                case Recompensas.TIROPERDIDO:
+                    $("#img_jugador").attr("src", "animaciones/perdiste.gif");
+                    setTimeout(function(){mostrarConteo();}, 2000);
+                    break;
+                case Recompensas.TIROEMPATE:
+                    $("#img_jugador").attr("src", "imagenes/empataste.png");
+                    setTimeout(function(){mostrarConteo();}, 2000);
+                    break;
+                case Recompensas.TIJERASDEORO:
+                    $("#img_jugador").attr("src", "animaciones/bronce.gif");
+                    setTimeout(function(){mostrarConteo();}, 2000);
+                    break;
+                case Recompensas.PAPELDEORO:
+                    $("#img_jugador").attr("src", "animaciones/plata.gif");
+                    setTimeout(function(){mostrarConteo();}, 2000);
+                    break;
+                case Recompensas.DIAMANTE:
+                    $("#img_jugador").attr("src", "animaciones/oro.gif");
+                    setTimeout(function () { location.href = "inicio.html"; }, 2000);
+                    break;
+                case Recompensas.JUEGOPERDIDO:
+                    location.href = "inicio.html";
+                    break;
+            }
+        };
+
+        function tirar(seleccionJugador) {
+            try {
+                var seleccionComputador = juego.generarJugadaComputador();
+                refrescarSeleccionComputador(seleccionComputador);
+                var resultado = juego.tiro(seleccionJugador, seleccionComputador);
+                refrescarInformacion();
+                setTimeout(function () { refrescarResultado(resultado); }, 1000);
+            } catch (error) {
+                alert(error);
+            }
+        };
+
+
+
+        $("#btn_piedra").click(function () {
+            if (!bloqueado) {
+                bloqueado = true;
+                $("#img_jugador").attr("src", "imagenes/piedra_2.png");
+                tirar(Opciones.PIEDRA)
+            }
+        });
+
+        $("#btn_papel").click(function () {
+            if (!bloqueado) {
+                bloqueado = true;
+                $("#img_jugador").attr("src", "imagenes/papel_2.png");
+                tirar(Opciones.PAPEL)
+            }
+        });
+
+        $("#btn_tijera").click(function () {
+            if (!bloqueado) {
+                bloqueado = true;
+                $("#img_jugador").attr("src", "imagenes/tijera_2.png");
+                tirar(Opciones.TIJERA)
+            }
+        });
+
+    });
+
+</script>

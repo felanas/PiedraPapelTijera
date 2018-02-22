@@ -1,3 +1,4 @@
+//Mi Primer Repositorio
 var Opciones = {
     PIEDRA: 1,
     PAPEL: 2,
@@ -26,7 +27,7 @@ function Juego(){//declare objeto
     this.jugador='Pepito';
 }
 
-Juego.prototype.iniciar=function(){
+Juego.prototype.iniciar=function(){//se cre un prototype de la funcion Juego
     this.vidas=3;
     this.puntaje=0;
 }
